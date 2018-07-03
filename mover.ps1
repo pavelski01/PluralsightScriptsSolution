@@ -12,7 +12,7 @@ $fileArray | foreach {
         $subStringed = $subStringed.Substring(0, $subStringed.IndexOf('-'))
         if ($subStringed.Length -eq 1) {
             $subStringed = "0$subStringed"
-        }		
+        }
         foreach ($directory in $directoryArray) {			
             if ($directory.Name.StartsWith("$subStringed")) {
                 $joinedPath = Join-Path -Path $directory.FullName -ChildPath $_.Name
