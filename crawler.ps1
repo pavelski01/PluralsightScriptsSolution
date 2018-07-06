@@ -48,14 +48,14 @@ foreach ($kvp in $courses.GetEnumerator())
         $fileArray = $fileArray | Sort-Object
         foreach ($file in $fileArray)
         {
-            if ($file.Name.ToLower().Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '') -like "*$($val.ToLower().Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', ''))*")
+            if ($file.Name.ToLower().Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('’’', '') -like "*$($val.ToLower().Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('/', '').Replace('’’', ''))*")
             {
                 Move-Item -Path $file.FullName -Destination "$($scriptDirPath)$($kvp.Key)\$($file.Name)"
-                $srt = $file.FullName.Substring(0, $file.FullName.IndexOf('.')) + '.en.srt'
+                $srt = $file.FullName.Substring(0, $file.FullName.LastIndexOf('.')) + '.en.srt'
                 $isSrt = Test-Path -Path $srt
                 if ($isSrt)
                 {
-                    Move-Item -Path $srt -Destination "$($scriptDirPath)$($kvp.Key)\$($file.Name.Substring(0, $file.Name.IndexOf('.'))).en.srt"
+                    Move-Item -Path $srt -Destination "$($scriptDirPath)$($kvp.Key)\$($file.Name.Substring(0, $file.Name.LastIndexOf('.'))).en.srt"
                 }
                 break          
             }
