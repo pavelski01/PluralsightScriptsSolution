@@ -47,8 +47,8 @@ foreach ($kvp in $courses.GetEnumerator())
         $fileArray = Get-ChildItem -Filter "*.mp4" -File -Path "$scriptDir\$title\"
         $fileArray = $fileArray | Sort-Object
         foreach ($file in $fileArray)
-        {
-            if ($file.Name.ToLower().Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('’’', '') -like "*$($val.ToLower().Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('/', '').Replace('’’', ''))*")
+        {            
+            if ($file.Name.ToLower().Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('’’', '').Replace('''', '').Replace('"', '') -like "*$($val.ToLower().Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('/', '').Replace('’’', '').Replace('''', '').Replace('"', ''))*")
             {
                 Move-Item -Path $file.FullName -Destination "$($scriptDirPath)$($kvp.Key)\$($file.Name)"
                 $srt = $file.FullName.Substring(0, $file.FullName.LastIndexOf('.')) + '.en.srt'
