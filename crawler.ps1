@@ -44,8 +44,7 @@ foreach ($kvp in $courses.GetEnumerator())
 {
     foreach ($val in $kvp.Value)
     {
-        $fileArray = Get-ChildItem -Filter "*.mp4" -File -Path "$scriptDir\$title\"
-        $fileArray = $fileArray | Sort-Object
+        $fileArray = Get-ChildItem -Filter "*.mp4" -File -Path "$scriptDir\$title\" | Sort-Object
         foreach ($file in $fileArray)
         {            
             if ($file.Name.ToLower().Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('’’', '').Replace('''', '').Replace('"', '') -like "*$($val.ToLower().Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('/', '').Replace('’’', '').Replace('''', '').Replace('"', ''))*")
