@@ -7,7 +7,7 @@ $modulesJ = $json | select modules
 $titleJ = $json | select title
 $title = $titleJ.title.Replace(':', ' -').Replace('?', '').Trim()
 $dict = New-Object 'system.collections.generic.dictionary[string,string[]]'
-foreach($clip in $modulesJ.modules.clips)
+foreach ($clip in $modulesJ.modules.clips)
 {
     if ($dict[$clip.moduleTitle.Replace(':', ' -').Replace('?', '').Trim()] -eq $null)
     {
@@ -19,7 +19,7 @@ $index = 0
 $courses = New-Object 'system.collections.generic.dictionary[string,string[]]'
 $scriptDir = Split-Path $script:MyInvocation.MyCommand.Path
 $scriptDirPath = "$scriptDir\$title\"
-foreach($key in $dict.Keys)
+foreach ($key in $dict.Keys)
 {
     $index++
     $indexS = ""
