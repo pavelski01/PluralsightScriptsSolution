@@ -1,1 +1,1 @@
-.\downloader.ps1 -Course "https://app.pluralsight.com/library/courses/android-apps-kotlin-tools-testing/table-of-contents"
+.\downloader.ps1 -Course "https://app.pluralsight.com/library/courses/angular-cli"
