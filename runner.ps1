@@ -1,2 +1,1 @@
-.\downloader.ps1 -Course "https://app.pluralsight.com/library/courses/windows-internals-3/table-of-contents"
-.\downloader.ps1 -Course "https://app.pluralsight.com/library/courses/windows-10-internals-system-processes/table-of-contents"
+.\downloader.ps1 -Course "https://app.pluralsight.com/library/courses/android-apps-kotlin-tools-testing/table-of-contents"
