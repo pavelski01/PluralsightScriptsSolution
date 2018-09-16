@@ -3,11 +3,11 @@ $CourseUrl = $CourseUrl.Substring(0, $CourseUrl.LastIndexOf('/'))
 $CourseUrl = $CourseUrl.Substring($CourseUrl.LastIndexOf('/') + 1)
 $request = "https://app.pluralsight.com/learner/content/courses/$($CourseUrl)"
 [Net.ServicePointManager]::Expect100Continue  = $true
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Ssl3 -bor [Net.SecurityProtocolType]::Tls -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 $json = Invoke-WebRequest -Uri $request -Verbose | ConvertFrom-Json
 $modulesJ = $json | select modules
 $titleJ = $json | select title
-$title = $titleJ.title.Replace(':', ' -').Replace('?', '').Replace('"','''').Trim()
+$title = $titleJ.title.Replace(':', ' -').Replace('?', '').Replace('"','''').Replace('״', '').Trim()
 $dict = New-Object 'system.collections.generic.dictionary[string,string[]]'
 foreach ($clip in $modulesJ.modules.clips)
 {
@@ -48,8 +48,8 @@ foreach ($kvp in $courses.GetEnumerator())
     {
         $fileArray = Get-ChildItem -Filter "*.mp4" -File -Path "$scriptDir\$title\" | Sort-Object
         foreach ($file in $fileArray)
-        {            
-            if ($file.Name.ToLower().Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('’’', '').Replace('''', '').Replace('"', '') -like "*$($val.ToLower().Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('/', '').Replace('’’', '').Replace('''', '').Replace('"', '').Replace('>', '').Replace('<', ''))*")
+        { 
+            if ($file.Name.ToLower().Replace(' ', '').Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('’’', '').Replace('''', '').Replace('"', '').Replace('“', '').Replace('”', '') -like "*$($val.ToLower().Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('/', '').Replace('’’', '').Replace('''', '').Replace('"', '').Replace('>', '').Replace('<', ''))*")
             {
                 Move-Item -Path $file.FullName -Destination "$($scriptDirPath)$($kvp.Key)\$($file.Name)"
                 break;      
@@ -58,7 +58,7 @@ foreach ($kvp in $courses.GetEnumerator())
 		$fileArray = Get-ChildItem -Filter "*.en.srt" -File -Path "$scriptDir\$title\" | Sort-Object
         foreach ($file in $fileArray)
         {            
-            if ($file.Name.ToLower().Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('’’', '').Replace('''', '').Replace('"', '') -like "*$($val.ToLower().Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('/', '').Replace('’’', '').Replace('''', '').Replace('"', '').Replace('>', '').Replace('<', ''))*")
+            if ($file.Name.ToLower().Replace(' ', '').Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('’’', '').Replace('''', '').Replace('"', '').Replace('“', '').Replace('”', '') -like "*$($val.ToLower().Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('/', '').Replace('’’', '').Replace('''', '').Replace('"', '').Replace('>', '').Replace('<', ''))*")
             {
                 Move-Item -Path $file.FullName -Destination "$($scriptDirPath)$($kvp.Key)\$($file.Name)"
                 break;
