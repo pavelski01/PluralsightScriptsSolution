@@ -48,8 +48,10 @@ foreach ($kvp in $courses.GetEnumerator())
     {
         $fileArray = Get-ChildItem -Filter "*.mp4" -File -Path "$scriptDir\$title\" | Sort-Object
         foreach ($file in $fileArray)
-        { 
-            if ($file.Name.ToLower().Replace(' ', '').Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('’’', '').Replace('''', '').Replace('"', '').Replace('“', '').Replace('”', '') -like "*$($val.ToLower().Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('/', '').Replace('’’', '').Replace('''', '').Replace('"', '').Replace('>', '').Replace('<', ''))*")
+        {
+            $fileMod = $file.Name.ToLower().Replace(' ', '').Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('’’', '').Replace('''', '').Replace('"', '').Replace('“', '').Replace('”', '').Replace('[', '').Replace(']', '')
+            $valMod = $val.ToLower().Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('/', '').Replace('’’', '').Replace('''', '').Replace('"', '').Replace('>', '').Replace('<', '').Replace('[', '').Replace(']', '')
+            if ($fileMod -like "*$($valMod)*")
             {
                 Move-Item -Path $file.FullName -Destination "$($scriptDirPath)$($kvp.Key)\$($file.Name)"
                 break;      
@@ -57,8 +59,10 @@ foreach ($kvp in $courses.GetEnumerator())
         }
 		$fileArray = Get-ChildItem -Filter "*.en.srt" -File -Path "$scriptDir\$title\" | Sort-Object
         foreach ($file in $fileArray)
-        {            
-            if ($file.Name.ToLower().Replace(' ', '').Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('’’', '').Replace('''', '').Replace('"', '').Replace('“', '').Replace('”', '') -like "*$($val.ToLower().Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('/', '').Replace('’’', '').Replace('''', '').Replace('"', '').Replace('>', '').Replace('<', ''))*")
+        {
+            $fileMod = $file.Name.ToLower().Replace(' ', '').Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('’’', '').Replace('''', '').Replace('"', '').Replace('“', '').Replace('”', '').Replace('[', '').Replace(']', '')
+            $valMod = $val.ToLower().Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('/', '').Replace('’’', '').Replace('''', '').Replace('"', '').Replace('>', '').Replace('<', '').Replace('[', '').Replace(']', '')            
+            if ($fileMod -like "*$($valMod)*")
             {
                 Move-Item -Path $file.FullName -Destination "$($scriptDirPath)$($kvp.Key)\$($file.Name)"
                 break;
