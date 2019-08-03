@@ -7,7 +7,7 @@ $request = "https://app.pluralsight.com/learner/content/courses/$($CourseUrl)"
 $json = Invoke-WebRequest -Uri $request -Verbose | ConvertFrom-Json
 $modulesJ = $json | select modules
 $titleJ = $json | select title
-$title = $titleJ.title.Replace(':', ' -').Replace('?', '').Replace('"','''').Replace('״', '').Trim()
+$title = $titleJ.title.Replace(':', ' -').Replace('?', '').Replace('"','''').Trim()
 $dict = New-Object 'system.collections.generic.dictionary[string,string[]]'
 foreach ($clip in $modulesJ.modules.clips)
 {
@@ -48,10 +48,8 @@ foreach ($kvp in $courses.GetEnumerator())
     {
         $fileArray = Get-ChildItem -Filter "*.mp4" -File -Path "$scriptDir\$title\" | Sort-Object
         foreach ($file in $fileArray)
-        {
-            $fileMod = $file.Name.ToLower().Replace(' ', '').Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('’’', '').Replace('''', '').Replace('"', '').Replace('“', '').Replace('”', '').Replace('[', '').Replace(']', '')
-            $valMod = $val.ToLower().Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('/', '').Replace('’’', '').Replace('''', '').Replace('"', '').Replace('>', '').Replace('<', '').Replace('[', '').Replace(']', '')
-            if ($fileMod -like "*$($valMod)*")
+        {            
+            if ($file.Name.ToLower().Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('’’', '').Replace('''', '').Replace('"', '').Replace('–', '') -like "*$($val.ToLower().Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('/', '').Replace('’’', '').Replace('''', '').Replace('"', '').Replace('>', '').Replace('<', '').Replace('–', ''))*")
             {
                 Move-Item -Path $file.FullName -Destination "$($scriptDirPath)$($kvp.Key)\$($file.Name)"
                 break;      
@@ -59,10 +57,8 @@ foreach ($kvp in $courses.GetEnumerator())
         }
 		$fileArray = Get-ChildItem -Filter "*.en.srt" -File -Path "$scriptDir\$title\" | Sort-Object
         foreach ($file in $fileArray)
-        {
-            $fileMod = $file.Name.ToLower().Replace(' ', '').Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('’’', '').Replace('''', '').Replace('"', '').Replace('“', '').Replace('”', '').Replace('[', '').Replace(']', '')
-            $valMod = $val.ToLower().Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('/', '').Replace('’’', '').Replace('''', '').Replace('"', '').Replace('>', '').Replace('<', '').Replace('[', '').Replace(']', '')            
-            if ($fileMod -like "*$($valMod)*")
+        {            
+            if ($file.Name.ToLower().Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('’’', '').Replace('''', '').Replace('"', '').Replace('–', '') -like "*$($val.ToLower().Replace(' ', '').Replace('_', '').Replace('-', '').Replace('.', '').Replace('/', '').Replace('’’', '').Replace('''', '').Replace('"', '').Replace('>', '').Replace('<', '').Replace('–', ''))*")
             {
                 Move-Item -Path $file.FullName -Destination "$($scriptDirPath)$($kvp.Key)\$($file.Name)"
                 break;
