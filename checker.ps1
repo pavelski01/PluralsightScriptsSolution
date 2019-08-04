@@ -7,7 +7,7 @@ $requestUrl = "https://app.pluralsight.com/learner/content/courses/$($courseName
 $jsonResponse = Invoke-WebRequest -Uri $requestUrl | ConvertFrom-Json
 $courseTitle = $jsonResponse | select title -ExpandProperty title
 $modules = $jsonResponse | select modules -ExpandProperty modules
-$dict = New-Object 'system.collections.generic.dictionary[string,string[]]'
+$dict = [system.collections.generic.dictionary[string,string[]]]::new()
 $videoCounter = 0
 foreach ($clip in $modules.clips)
 {
@@ -24,7 +24,7 @@ $scriptDir = Split-Path $script:MyInvocation.MyCommand.Path
 $scriptDirPath = "$scriptDir$courseTitle"
 if ($Suffix -ne $null)
 {
-    $scriptDirPath = "$scriptDir$Suffix\$courseTitle"
+    $scriptDirPath = "$scriptDir\$Suffix\$courseTitle"
 }
 $allDirectories = Get-ChildItem -Directory -Path $scriptDirPath | select -Property Name -ExpandProperty Name
 $fileCounter = 0
@@ -38,9 +38,9 @@ foreach ($dir in $allDirectories)
 }
 if ($fileCounter -ne $videoCounter)
 {
-    throw "files:$fileCounter is not equal videos:$videoCounter"
+    return $false
 }
 else
 {
-    Write-Host "$courseTitle is checked"
+    return $true
 }
