@@ -6,6 +6,7 @@ $requestUrl = "https://app.pluralsight.com/learner/content/courses/$($courseName
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 $jsonResponse = Invoke-WebRequest -Uri $requestUrl | ConvertFrom-Json
 $courseTitle = $jsonResponse | select title -ExpandProperty title
+$courseTitle = $courseTitle.Replace(":", " -")
 $modules = $jsonResponse | select modules -ExpandProperty modules
 $dict = [system.collections.generic.dictionary[string,string[]]]::new()
 $videoCounter = 0

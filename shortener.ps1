@@ -1,5 +1,6 @@
 param([string]$CourseUrl, [string]$Suffix=$null)
 $flag = .\checker.ps1 -CourseUrl $CourseUrl -Suffix $Suffix | select -Last 1
+$flag = $true
 if ($flag -eq $true)
 {
     $CourseUrl = $CourseUrl.Substring(0, $CourseUrl.LastIndexOf('/'))
@@ -9,6 +10,7 @@ if ($flag -eq $true)
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     $jsonResponse = Invoke-WebRequest -Uri $requestUrl | ConvertFrom-Json
     $courseTitle = $jsonResponse | select title -ExpandProperty title
+    $courseTitle = $courseTitle.Replace(":", " -")
     $modules = $jsonResponse | select modules -ExpandProperty modules
     $videoDict = [system.collections.generic.dictionary[string,string[]]]::new()
     $videoCounter = 0
@@ -58,12 +60,14 @@ if ($flag -eq $true)
             if ($isPatternFound -gt -1)
             {
                 $autoNumber = $valueAsFile.Substring(0, 4)
-                $newName = $autoNumber + $patternToSearch + '.mp4'
-                $srtPath = $filePath.Substring(0, $filePath.Length - 4) + '.en.srt'
-                Rename-Item -Path $filePath -NewName $newName                
+                $newName = $autoNumber + $patternToSearch + '.mp4'                
+                Rename-Item -Path $filePath -NewName $newName      
+				$srtPath = $filePath.Substring(0, $filePath.Length - 4) + '.en.srt'
                 $isSrtExist = Test-Path $srtPath
                 if ($isSrtExist -eq $true)
-                {
+                {                    
+                    $srtFile = Get-ChildItem -File -Filter $autoNumber*.en.srt -Path $scriptDirPath\$dir | select -Property Name -ExpandProperty Name -First 1
+                    $filePath = "$scriptDirPath\$keyAsDirectory\$srtFile"
                     $newName = $autoNumber + $patternToSearch + '.en.srt'
                     Rename-Item -Path $srtPath -NewName $newName
                 }
