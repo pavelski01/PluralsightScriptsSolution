@@ -9,5 +9,5 @@ if ($SubsOnly -eq 1)
 { 
 	$additionalOptions = -join($additionalOptions, "--skip-download") 
 }
-.\youtube-dl.exe "$CourseUrl" --output "$scriptDir%(playlist_title)s\%(autonumber)003d %(title)s-%(id)s.%(ext)s" --all-subs --username "" --password "" -r 5.0M --verbose --sleep-interval 120 $additionalOptions --playlist-start "$PlaylistStart" -f best --no-cache-dir
+.\youtube-dl.exe "$CourseUrl" --output "$scriptDir%(playlist_title)s\%(autonumber)003d %(title)s.%(ext)s" --all-subs --username "" --password "" -r 5.0M --verbose --sleep-interval 120 $additionalOptions --playlist-start "$PlaylistStart" -f best --no-cache-dir
 .\crawler.ps1 -CourseUrl $CourseUrl
